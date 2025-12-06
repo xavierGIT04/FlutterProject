@@ -22,7 +22,7 @@ class Screenbibliotheque extends StatelessWidget {
           //partie onglets
           _onglets(),
           //partie playliste qui va occuper tout l'écran restant
-          Expanded(child: _playliste())
+          Expanded(child: _playlistelist())
         ],
       ),
       bottomNavigationBar: _barDeNavigation(),
@@ -104,14 +104,113 @@ class _onglets extends StatelessWidget {
   }
 }
 
-class  _playliste extends StatelessWidget {
-  const  _playliste({super.key});
+class Playlist extends StatelessWidget {
+  final String titre;
+  final int nbreMorceau;
+  final bool isdownload;
+  final Color colorVignete;
+
+  const Playlist({
+    required this.titre,
+    required this.nbreMorceau,
+    this.isdownload = false,
+    required this.colorVignete});
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return ListTile(
+      contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      leading: Container(
+        width: 60,
+        height: 60,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8.0),
+          gradient: LinearGradient(
+              colors: [colorVignete.withOpacity(0.8), colorVignete.withOpacity(0.4)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight
+          )
+        ),
+      ),
+      title: Text(
+        titre,
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      ),
+      subtitle: Text(
+        "$nbreMorceau morceaux",
+        style: TextStyle(color: Colors.white70),
+      ),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            isdownload ? Icons.check_circle:Icons.file_download_outlined,
+            color: isdownload ? Colors.greenAccent:Colors.white70,
+            size: 24,
+          ),
+          SizedBox(width: 16),
+          Icon(
+            Icons.more_vert,
+            color: Colors.white70,
+            size: 24,
+          )
+        ],
+      ),
+      onTap: (){
+
+      },
+    );
   }
 }
+
+class  _playlistelist extends StatelessWidget {
+  _playlistelist();
+  final List<Map<String, dynamic>> playList = [
+    {
+      'titre': "Concentration & Travail",
+      'n_morceau': 5,
+      'download': true,
+      'color': Colors.pink,
+    },
+    {
+      'titre': "Motivation Sport",
+      'n_morceau': 2,
+      'download': false,
+      'color': Colors.purple,
+    },
+    {
+      'titre': "Détente / Coucher",
+      'n_morceau': 10,
+      'download': true,
+      'color': Colors.orange,
+    },
+    {
+      'titre': "Hip-Hop Années 90",
+      'n_morceau': 7,
+      'download': true,
+      'color': Colors.teal,
+    },
+  ];
+
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        itemCount: playList.length,
+        itemBuilder: (context, index){
+          final playlist = playList[index];
+          return Playlist(
+              titre: playlist['titre'] as String,
+              nbreMorceau: playlist['n_morceau'] as int,
+              isdownload: playlist['download'] as bool,
+              colorVignete: playlist['color'] as Color
+          );
+        }
+    );
+  }
+}
+
+
 
 class _barDeNavigation extends StatelessWidget {
   const _barDeNavigation({super.key});
