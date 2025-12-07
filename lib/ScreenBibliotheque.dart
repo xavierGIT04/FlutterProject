@@ -7,7 +7,7 @@ class Screenbibliotheque extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Bibliotheque", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 4),),
+        title: Text("Bibliotheque", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),),
         actions: [
           Padding(
               padding: EdgeInsets.only(right:  16.0), // définir une marge intérieure pour l'icone pour éviter qu'il touche les bords de appbar
@@ -22,7 +22,7 @@ class Screenbibliotheque extends StatelessWidget {
           //partie onglets
           _onglets(),
           //partie playliste qui va occuper tout l'écran restant
-          Expanded(child: _playlistelist())
+          Expanded(child: _playlistelist()),
         ],
       ),
       bottomNavigationBar: _barDeNavigation(),
@@ -45,7 +45,7 @@ class _onglets extends StatelessWidget {
                 style: TextStyle(
                   color: isSelected ? Colors.purpleAccent:Colors.white70,
                   fontWeight: FontWeight.bold,
-                  fontSize: 24
+                  fontSize: 22
                 ),
               ),
               //ligne violette qui se trouve en dessous du titre de l'onglet
@@ -190,6 +190,24 @@ class  _playlistelist extends StatelessWidget {
       'download': true,
       'color': Colors.teal,
     },
+    {
+      'titre': "Hip-Hop Années 90",
+      'n_morceau': 7,
+      'download': true,
+      'color': Colors.teal,
+    },
+    {
+      'titre': "Hip-Hop Années 90",
+      'n_morceau': 7,
+      'download': true,
+      'color': Colors.teal,
+    },
+    {
+      'titre': "Hip-Hop Années 90",
+      'n_morceau': 7,
+      'download': true,
+      'color': Colors.teal,
+    },
   ];
 
 
@@ -210,6 +228,46 @@ class  _playlistelist extends StatelessWidget {
   }
 }
 
+class  _navigationItem extends StatelessWidget {
+
+  final IconData monicon;
+  final String label;
+  final bool isSelected;
+  final Color couleur;
+
+  const _navigationItem({required this.monicon, required this.label, required this.isSelected, required this.couleur});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if(isSelected)
+                  Container(
+                      padding: EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        shape:BoxShape.circle,
+                        color: Colors.purple.withOpacity(0.2),
+                      ),
+                      child: Icon(monicon, color: couleur, size: 30)
+                  )
+                else
+                  Icon(monicon, color: couleur, size: 30),
+                SizedBox(height: 4),
+                Text(label, style: TextStyle(fontSize: 12, color: couleur))
+              ],
+            ),
+          ),
+        )
+    );
+  }
+}
+
 
 
 class _barDeNavigation extends StatelessWidget {
@@ -217,7 +275,23 @@ class _barDeNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Container(
+      height: 90,
+      padding: EdgeInsets.only(bottom: 17, top: 5),
+      decoration: BoxDecoration(
+        border: Border(top: BorderSide(color: Colors.white10, width: 1)),
+        color: Colors.black
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _navigationItem(monicon: Icons.home_filled, label: "Accueil", isSelected: false, couleur: Colors.white70),
+          _navigationItem(monicon: Icons.library_books, label: "Bibliotheque", isSelected: true, couleur: Colors.purpleAccent),
+          _navigationItem(monicon: Icons.person, label: "Profil", isSelected: false, couleur: Colors.white70),
+        ],
+      ),
+
+    );
   }
 }
 
